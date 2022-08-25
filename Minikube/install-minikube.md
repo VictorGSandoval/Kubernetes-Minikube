@@ -51,9 +51,9 @@ sudo install minikube-linux-amd64 /usr/bin/minikube
 sudo chmod +x /usr/bin/minikube
 ```
 ### The none driver with Kubernetes v1.24+ and the docker container-runtime requires cri-dockerd.
-```
-[https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/](https://github.com/kubernetes/minikube/issues/14410)
-```
+
+https://github.com/kubernetes/minikube/issues/14410
+
 ##### Install the cri-dockerd
 ```
 git clone https://github.com/Mirantis/cri-dockerd.git
