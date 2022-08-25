@@ -12,7 +12,7 @@ apt-get update
 apt install docker-ce docker-ce-cli containerd.io -y
 
 echo "Docker user root"
-usermod -aG docker $USER
+usermod -aG docker $victor_sandoval
 newgrp docker
 
 echo "Install Kubectl"
