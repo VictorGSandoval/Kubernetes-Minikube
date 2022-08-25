@@ -52,5 +52,8 @@ wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/cri
 sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 
+
+echo "Run Minikube "
+minikube start --vm-driver=none
+
 echo "Congratulations installation done"
-echo "Only Run: minikube start --vm-driver=none"
