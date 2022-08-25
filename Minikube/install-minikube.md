@@ -91,6 +91,11 @@ sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
 rm -f crictl-$VERSION-linux-amd64.tar.gz
 ```
 
+# Congratulations installation done  
+
+> Only Run: minikube start --vm-driver=none
+> The following steps are tests
+
 ### Minikube commands
 ```
 minikube start --vm-driver=none
