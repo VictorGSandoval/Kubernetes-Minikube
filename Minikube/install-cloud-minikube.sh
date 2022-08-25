@@ -16,7 +16,7 @@ sudo usermod -aG docker $USER
 sudo newgrp docker
 
 echo "Install Kubectl"
-sudo -i
+sudo su
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 mv kubectl /bin/kubectl
 chmod a+x /bin/kubectl
