@@ -25,6 +25,13 @@ sudo apt-get update
 sudo apt install docker-ce docker-ce-cli containerd.io -y
 docker --version
 ```
+#### Run docker as non-root user
+```
+#sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
 
 ### Install Kubectl
 ```
