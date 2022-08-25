@@ -11,8 +11,9 @@ sudo apt-get update
 sudo apt install docker-ce docker-ce-cli containerd.io -y
 
 echo "Docker user root"
+sudo groupadd docker
 sudo usermod -aG docker $USER
-sudo newgrp docker
+newgrp docker
 
 echo "Install Kubectl"
 sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -25,31 +26,32 @@ sudo install minikube-linux-amd64 /usr/bin/minikube
 sudo chmod +x /usr/bin/minikube
 
 echo "Install the cri-dockerd"
+sudo -i
+git clone https://github.com/Mirantis/cri-dockerd.git
 
 echo "Install Golang"
-sudo wget https://storage.googleapis.com/golang/getgo/installer_linux
-sudo chmod +x ./installer_linux
-sudo ./installer_linux
-sudo source ~/.bash_profile
+wget https://storage.googleapis.com/golang/getgo/installer_linux
+chmod +x ./installer_linux
+./installer_linux
+source ~/.bash_profile
 
 echo "Build the cri-dockerd"
-sudo git clone https://github.com/Mirantis/cri-dockerd.git
-sudo cd cri-dockerd
-sudo mkdir bin
-sudo go get && go build -o bin/cri-dockerd
-sudo mkdir -p /usr/local/bin
-sudo install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
-sudo cp -a packaging/systemd/* /etc/systemd/system
-sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
-sudo systemctl daemon-reload
-sudo systemctl enable cri-docker.service
-sudo systemctl enable --now cri-docker.socket
 
+cd cri-dockerd
+mkdir bin
+go get && go build -o bin/cri-dockerd
+mkdir -p /usr/local/bin
+install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+cp -a packaging/systemd/* /etc/systemd/system
+sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+systemctl daemon-reload
+systemctl enable cri-docker.service
+exit
 echo "Install the crictl"
 VERSION="v1.24.2"
-sudo wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
 sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
-sudo rm -f crictl-$VERSION-linux-amd64.tar.gz
+rm -f crictl-$VERSION-linux-amd64.tar.gz
 
 echo "Congratulations installation done"
 echo "Only Run: minikube start --vm-driver=none"
