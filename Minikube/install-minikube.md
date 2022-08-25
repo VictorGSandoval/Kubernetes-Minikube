@@ -8,6 +8,7 @@
 2 CPU / vCPU or more
 20 GB free hard disk space or more
 Docker
+Preference Run User ROOT 
 ```
 ### Install dependencies
 ```
@@ -34,9 +35,9 @@ newgrp docker
 
 
 ### Install Kubectl
-```
+
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-```
+
 ```
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 mv kubectl /bin/kubectl
@@ -53,7 +54,7 @@ sudo chmod +x /usr/bin/minikube
 ### The none driver with Kubernetes v1.24+ and the docker container-runtime requires cri-dockerd.
 
 https://github.com/kubernetes/minikube/issues/14410
-https://github.com/Mirantis/cri-dockerd#build-and-install
+    https://github.com/Mirantis/cri-dockerd#build-and-install
 
 ##### Install the cri-dockerd
 ```
@@ -81,7 +82,7 @@ systemctl enable --now cri-docker.socket`
 ```
 ### Need to install crictl from cri-tools (new for 1.24)
 https://github.com/kubernetes/minikube/issues/14676
-https://github.com/kubernetes-sigs/cri-tools
+    https://github.com/kubernetes-sigs/cri-tools
 ##### Install the crictl
 ```
 VERSION="v1.24.2"
