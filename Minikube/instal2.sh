@@ -27,16 +27,16 @@ sudo chmod +x /usr/bin/minikube
 
 echo "Install the cri-dockerd"
 sudo -i
-git clone https://github.com/Mirantis/cri-dockerd.git
+
 
 echo "Install Golang"
 wget https://storage.googleapis.com/golang/getgo/installer_linux
 chmod +x ./installer_linux
 ./installer_linux
-source ~/.bash_profile
+source /root/.bash_profile
 
 echo "Build the cri-dockerd"
-
+git clone https://github.com/Mirantis/cri-dockerd.git
 cd cri-dockerd
 mkdir bin
 go get && go build -o bin/cri-dockerd
@@ -46,7 +46,7 @@ cp -a packaging/systemd/* /etc/systemd/system
 sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
 systemctl daemon-reload
 systemctl enable cri-docker.service
-exit
+exit 0
 echo "Install the crictl"
 VERSION="v1.24.2"
 wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
