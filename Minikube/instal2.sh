@@ -33,7 +33,7 @@ echo "Install Golang"
 wget https://storage.googleapis.com/golang/getgo/installer_linux
 chmod +x ./installer_linux
 ./installer_linux
-source ~/.bash_profil
+source ~/.bash_profile
 
 echo "Build the cri-dockerd"
 git clone https://github.com/Mirantis/cri-dockerd.git
