@@ -53,6 +53,7 @@ sudo chmod +x /usr/bin/minikube
 ### The none driver with Kubernetes v1.24+ and the docker container-runtime requires cri-dockerd.
 
 https://github.com/kubernetes/minikube/issues/14410
+https://github.com/Mirantis/cri-dockerd#build-and-install
 
 ##### Install the cri-dockerd
 ```
@@ -78,6 +79,16 @@ systemctl daemon-reload
 systemctl enable cri-docker.service
 systemctl enable --now cri-docker.socket`
 ```
+### Need to install crictl from cri-tools (new for 1.24)
+https://github.com/kubernetes/minikube/issues/14676
+https://github.com/kubernetes-sigs/cri-tools
+##### Install the crictl
+```
+VERSION="v1.24.2"
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
+rm -f crictl-$VERSION-linux-amd64.tar.gz
+```
 
 ### Minikube commands
 ```
@@ -100,4 +111,4 @@ kubectl run hello-minikube --image=gcr.io/google_containers/echoserver:1.4 --por
 kubectl expose pod hello-minikube --type=NodePort
 ```
 ### Authors
-Vikram K
+Victor Sandoval
