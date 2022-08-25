@@ -33,7 +33,7 @@ echo "Install Golang"
 wget https://storage.googleapis.com/golang/getgo/installer_linux
 chmod +x ./installer_linux
 ./installer_linux
-source /root/.bash_profile
+source ~/.bash_profil
 
 echo "Build the cri-dockerd"
 git clone https://github.com/Mirantis/cri-dockerd.git
@@ -46,7 +46,7 @@ cp -a packaging/systemd/* /etc/systemd/system
 sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
 systemctl daemon-reload
 systemctl enable cri-docker.service
-exit 0
+
 echo "Install the crictl"
 VERSION="v1.24.2"
 wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
