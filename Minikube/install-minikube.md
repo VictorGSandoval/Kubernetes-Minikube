@@ -25,7 +25,7 @@ sudo apt-get update
 sudo apt install docker-ce docker-ce-cli containerd.io -y
 docker --version
 ```
-#### Run docker as non-root user
+##### Run docker as non-root user
 ```
 #sudo groupadd docker
 sudo usermod -aG docker $USER
@@ -49,6 +49,34 @@ chmod a+x /bin/kubectl
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/bin/minikube
 sudo chmod +x /usr/bin/minikube
+```
+### The none driver with Kubernetes v1.24+ and the docker container-runtime requires cri-dockerd.
+```
+[https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/](https://github.com/kubernetes/minikube/issues/14410)
+```
+##### Install the cri-dockerd
+```
+git clone https://github.com/Mirantis/cri-dockerd.git
+```
+##### Install Golang Skip If present 
+```
+wget https://storage.googleapis.com/golang/getgo/installer_linux
+chmod +x ./installer_linux
+./installer_linux
+source ~/.bash_profile
+```
+##### Build the cri-dockerd 
+```
+cd cri-dockerd
+mkdir bin
+go get && go build -o bin/cri-dockerd
+mkdir -p /usr/local/bin
+install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+cp -a packaging/systemd/* /etc/systemd/system
+sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+systemctl daemon-reload
+systemctl enable cri-docker.service
+systemctl enable --now cri-docker.socket`
 ```
 
 ### Minikube commands
