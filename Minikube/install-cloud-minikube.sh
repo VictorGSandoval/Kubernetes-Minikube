@@ -12,7 +12,7 @@ apt-get update
 apt install docker-ce docker-ce-cli containerd.io -y
 
 echo "Docker user root"
-usermod -aG docker $victor_sandoval
+usermod -aG docker victor_sandoval
 newgrp docker
 
 echo "Install Kubectl"
@@ -44,7 +44,7 @@ cp -a packaging/systemd/* /etc/systemd/system
 sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
 systemctl daemon-reload
 systemctl enable cri-docker.service
-systemctl enable --now cri-docker.socket`
+systemctl enable --now cri-docker.socket
 
 echo "Install the crictl"
 VERSION="v1.24.2"
