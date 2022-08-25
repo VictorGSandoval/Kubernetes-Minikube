@@ -1,55 +1,55 @@
 #! /bin/bash
-sudo su
+
 echo "Install dependencies"
-apt update -y
-apt install -y curl wget apt-transport-https ca-certificates gnupg lsb-release conntrack
+sudo apt update -y
+sudo apt install -y curl wget apt-transport-https ca-certificates gnupg lsb-release conntrack
 
 echo "Install docker"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
-apt install docker-ce docker-ce-cli containerd.io -y
+sudo apt-get update
+sudo apt install docker-ce docker-ce-cli containerd.io -y
 
 echo "Docker user root"
-usermod -aG docker victor_sandoval
-newgrp docker
+sudo usermod -aG docker $USER
+sudo newgrp docker
 
 echo "Install Kubectl"
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-mv kubectl /bin/kubectl
-chmod a+x /bin/kubectl
+sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo mv kubectl /bin/kubectl
+sudo chmod a+x /bin/kubectl
 
 echo "Install Minikube"
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-install minikube-linux-amd64 /usr/bin/minikube
-chmod +x /usr/bin/minikube
+sudo curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/bin/minikube
+sudo chmod +x /usr/bin/minikube
 
 echo "Install the cri-dockerd"
 
 echo "Install Golang"
-wget https://storage.googleapis.com/golang/getgo/installer_linux
-chmod +x ./installer_linux
-./installer_linux
-source ~/.bash_profile
+sudo wget https://storage.googleapis.com/golang/getgo/installer_linux
+sudo chmod +x ./installer_linux
+sudo ./installer_linux
+sudo source ~/.bash_profile
 
 echo "Build the cri-dockerd"
-git clone https://github.com/Mirantis/cri-dockerd.git
-cd cri-dockerd
-mkdir bin
-go get && go build -o bin/cri-dockerd
-mkdir -p /usr/local/bin
-install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
-cp -a packaging/systemd/* /etc/systemd/system
-sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
-systemctl daemon-reload
-systemctl enable cri-docker.service
-systemctl enable --now cri-docker.socket
+sudo git clone https://github.com/Mirantis/cri-dockerd.git
+sudo cd cri-dockerd
+sudo mkdir bin
+sudo go get && go build -o bin/cri-dockerd
+sudo mkdir -p /usr/local/bin
+sudo install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+sudo cp -a packaging/systemd/* /etc/systemd/system
+sudo sed -i -e 's,/usr/bin/cri-dockerd,/usr/local/bin/cri-dockerd,' /etc/systemd/system/cri-docker.service
+sudo systemctl daemon-reload
+sudo systemctl enable cri-docker.service
+sudo systemctl enable --now cri-docker.socket
 
 echo "Install the crictl"
 VERSION="v1.24.2"
-wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
+sudo wget https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz
 sudo tar zxvf crictl-$VERSION-linux-amd64.tar.gz -C /usr/local/bin
-rm -f crictl-$VERSION-linux-amd64.tar.gz
+sudo rm -f crictl-$VERSION-linux-amd64.tar.gz
 
 echo "Congratulations installation done"
 echo "Only Run: minikube start --vm-driver=none"
