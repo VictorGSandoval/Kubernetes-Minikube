@@ -1,11 +1,7 @@
-#!/bin/bash
+#! /bin/bash
 sudo -i
 echo "Inicio"
-git clone https://github.com/Mirantis/cri-dockerd.git
-wget https://storage.googleapis.com/golang/getgo/installer_linux
-chmod +x ./installer_linux
-./installer_linux
-source /root/.bash_profile
+sudo curl -Lo go_installer https://get.golang.org/$(uname) && chmod +x go_installer && ./go_installer && rm go_installer
 go version
 
 echo "Finish"
