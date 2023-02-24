@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: us-affiliate-search-test
+  labels:
+    app: us-affiliate-search-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: us-affiliate-search-test
+  template:
+    metadata:
+      labels:
+        app: us-affiliate-search-test
+    spec:
+      containers:
+      - name: us-affiliate-search-test
+        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/affiliate-search-service:v0.0.1-bld-5edd38a-18
+        env:
+        - name: environment
+          value: "mfprd"
+        - name: LOG_LEVEL_SYSTEM
+          value: "INFO"
+        - name: LOG_LEVEL_BUSINESS
+          value: "ERROR"
+        - name: LOGS_FOLDER
+          value: "/var/log/us-affiliate-search-test"
+        - name: newrelic
+          value: "-javaagent:/usr/src/service/newrelic.jar"
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: newrelic
+              key: licensekey
+        ports:
+        - containerPort: 8020
+        resources:
+          limits:
+            cpu: 400m
+            memory: 3000Mi
+          requests:
+            cpu: 300m
+            memory: 2800Mi
+      restartPolicy: Always

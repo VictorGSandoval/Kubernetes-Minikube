@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "backend-test"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/tags: Environment=PRD
+  labels:
+    app: us-backend-test
+spec:
+  rules:
+  - host: affiliatesearchprd.backend.cindibyinkafarma.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: "us-affiliate-search-test"
+          servicePort: 80
