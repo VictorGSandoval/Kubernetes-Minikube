@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "backend-test"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/tags: Environment=UATMF,Name=Backend
+  labels:
+    app: us-mapi-prdmfuat
+spec:
+  rules:
+  - host: mapiprdmfuat.backend.cindibyinkafarma.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: "us-mapi-prdmfuat"
+          servicePort: 80
