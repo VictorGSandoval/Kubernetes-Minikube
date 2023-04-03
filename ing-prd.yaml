@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "backend3"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:519901771307:certificate/4ba7290b-aaff-4ef7-b92c-5051a047270c,arn:aws:acm:us-east-1:519901771307:certificate/79179921-0358-4d92-b2c9-ecf3d40bac66
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/tags: Environment=PRD
+  labels:
+    app: us-backend3
+spec:
+  rules:
+  - host: deliverymanageroms.backend.inkafarma.pe
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: "us-deliverymanager-oms"
+          servicePort: 80
