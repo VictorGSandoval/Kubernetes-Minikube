@@ -16,7 +16,10 @@ spec:
     http:
       paths:
       - path: /*
+        pathType: Prefix
         backend:
-          serviceName: "us-affiliate-search-test"
-          servicePort: 80
+          service:
+              name: us-affiliate-search-test
+              port:
+                number: 80
 
