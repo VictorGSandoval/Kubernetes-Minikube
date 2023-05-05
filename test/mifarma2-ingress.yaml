@@ -21,3 +21,7 @@ spec:
         backend:
           serviceName: redirect-mf
           servicePort: use-annotation
+      - path: /*
+        backend:
+          serviceName: "web-mifarma2"
+          servicePort: 80
