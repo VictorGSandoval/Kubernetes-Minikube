@@ -14,7 +14,7 @@ metadata:
     app: us-mifarma
 spec:
   rules:
-  - host: beta.mifarma.com.pe
+  - host: prueba.mifarma.com.pe
     http:
       paths:
       - path: /*
