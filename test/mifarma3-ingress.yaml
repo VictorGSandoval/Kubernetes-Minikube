@@ -7,7 +7,7 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:519901771307:certificate/2039f684-544b-4a54-baf2-b2b15ec0ecee
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
-    alb.ingress.kubernetes.io/actions.redirect-mf: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "433", "StatusCode": "HTTP_301", "host": "www.mifarma.com.pe"}}'
+    alb.ingress.kubernetes.io/actions.redirect-mf: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301", "host": "www.mifarma.com.pe"}}'
     alb.ingress.kubernetes.io/healthcheck-path: /
     alb.ingress.kubernetes.io/tags: Environment=PRD-MF
   labels:
