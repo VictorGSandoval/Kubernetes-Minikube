@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: us-mapi
+  labels:
+    app: us-mapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: us-mapi
+  template:
+    metadata:
+      labels:
+        app: us-mapi
+    spec:
+      volumes:
+      - hostPath:
+          path: /usr/share/zoneinfo/America/Lima
+          type: ""
+        name: tz-config
+      containers:
+      - name: us-mapi
+        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/mapi:82a15600
+        env:
+        - name: environment
+          value: "prd"
+        - name: LOG_LEVEL_SYSTEM
+          value: "INFO"
+        - name: LOG_LEVEL_BUSINESS
+          value: "ERROR"
+        - name: NEW_RELIC_APP_NAME
+          value: MAPI-INKA
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: newrelic
+              key: licensekey  
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: tz-config
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "3"
+            memory: 8800Mi
+          requests:
+            cpu: "2"
+            memory: 4000Mi
+      restartPolicy: Always
