@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: us-dd
+  labels:
+    app: us-dd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: us-dd
+  template:
+    metadata:
+      labels:
+        app: us-dd
+    spec:
+      containers:
+      - name: us-dd
+        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/delivery-dispatcher:2.0.0-89501b1-1638
+        env:
+        - name: environment
+          value: "prd"
+        - name: jarmonitor
+          value: "-javaagent:/usr/src/service/apminsight-javaagent.jar"
+        - name: LOCAL_TRACKING
+          value: "true"
+        - name: DELIVERY_CENTER
+          value: "true"
+        - name: LOCAL_UNTRACKED
+          value: "true"
+        - name: LOG_LEVEL_SYSTEM
+          value: "INFO"
+        - name: LOG_LEVEL_BUSINESS
+          value: "ERROR"
+        - name: newrelic
+          value: "-javaagent:/usr/src/service/newrelic.jar"
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom: 
+            secretKeyRef: 
+              key: licensekey
+              name: newrelic
+        ports:
+        - containerPort: 8082
+        resources:
+          limits:
+            cpu: 800m
+            memory: 3500Mi
+          requests:
+            cpu: 500m
+            memory: 3000Mi
+      restartPolicy: Always
