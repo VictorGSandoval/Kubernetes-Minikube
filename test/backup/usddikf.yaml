@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: us-dd
-        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/delivery-dispatcher:2.0.0-89501b1-1638
+        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/delivery-dispatcher:2.0.0-fe70902-1637
         env:
         - name: environment
           value: "prd"
