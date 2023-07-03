@@ -21,10 +21,10 @@ spec:
         name: tz-config
       containers:
       - name: us-mapi
-        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/mapi:82a15600
+        image: 519901771307.dkr.ecr.us-west-2.amazonaws.com/mapi-ikf:82a15600
         env:
         - name: environment
-          value: "prd"
+          value: "ikf-prd"
         - name: LOG_LEVEL_SYSTEM
           value: "INFO"
         - name: LOG_LEVEL_BUSINESS
