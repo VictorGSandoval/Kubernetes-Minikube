@@ -1,0 +1,40 @@
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:masters
+      rolearn: arn:aws:iam::519901771307:role/Jenkins-to-AWS
+      username: jenkins
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::519901771307:role/terraform-eks-cluster-eks_prd
+      username: system:node:{{EC2PrivateDNSName}}
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::519901771307:role/terraform-eks-node-PRD
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - userarn: arn:aws:iam::519901771307:user/azure-pipeline
+      username: azure-pipeline
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::519901771307:user/fsueldo
+      username: fsueldo
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::519901771307:user/fmines
+      username: fmines
+      groups:
+        - system:masters
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"mapRoles":"- rolearn: arn:aws:iam::519901771307:role/terraform-eks-node-PRD\n  username: system:node:{{EC2PrivateDNSName}}\n  groups:\n    - system:bootstrappers\n    - system:nodes\n- rolearn: arn:aws:iam::519901771307:role/Jenkins-to-AWS\n  username: jenkins\n  groups:\n    - system:masters\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"aws-auth","namespace":"kube-system"}}
+  creationTimestamp: "2019-09-02T14:56:08Z"
+  name: aws-auth
+  namespace: kube-system
+  resourceVersion: "764799737"
+  uid: cba19401-cd91-11e9-ad05-0e356b716f82
