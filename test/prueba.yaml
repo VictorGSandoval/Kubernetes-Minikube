@@ -28,6 +28,10 @@ data:
       username: fmines
       groups:
         - system:masters
+    - userarn: arn:aws:iam::519901771307:user/victor.sandoval
+      username: victor.sandoval
+      groups:
+        - system:masters
 kind: ConfigMap
 metadata:
   annotations:
